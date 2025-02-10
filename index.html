@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Random Riddle Generation</title>
+<style>
+body {
+font-family: Arial,sans-serif;
+text-align: center;
+background-color: #f4f4f4;
+margin: 50px;
+}
+.container{
+background: white;
+padding: 20px;
+max-width: 500px;
+margin: auto;
+border-radius: 10px;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+button{
+padding: 10px 15px;
+background: #007bff;
+border: none;
+color: white;
+font-size: 16px;
+cursor: pointer;
+border-radius: 5px;
+margin-top: 15px;
+}
+button:hover{
+background: #0056b3;
+}
+.answer{
+display: none;
+font-weight: bold;
+color: #28a745;
+margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Random Riddle Generation</h2>
+<p id="riddle_question">Click the button to get a riddle!</p>
+<p id="riddle_answer" class="answer"></p>
+<button onclick="fetchRiddle()">Get Riddle</button>
+<button onclick="showAnswer()">Show Answer</button>
+</div>
+
+<script>
+async function fetchRiddle(){
+try{
+const response = await fetch("http://192.168.1.103:5002/riddle",{mode: "cors",});
+const data = await response.json();
+console.log("Fetch riddle", data);
+document.getElementById("riddle_question").innerText = data.question;
+document.getElementById("riddle_answer").innerText = data.answer;
+document.getElementById("riddle_answer").style.display = "none";
+} catch(error){
+console.log("Fetch riddle", error);
+alert("Failed to fetch riddle. Try again!")
+}
+}
+
+function showAnswer(){
+document.getElementById("riddle_answer").style.display = "block";
+}
+</script>
+</body>
+</html>
+
